@@ -6,4 +6,4 @@ file :
 
 untuk compile snort manual dibutuhkan
 1. dumbnet
-2. daq
+2. daq_static
