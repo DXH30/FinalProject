@@ -41,13 +41,23 @@ typedef struct {
 	bitmapinfoheader bitmapinfoheader;
 } bitmap;
 
+/* File content and length */
+typedef struct {
+	char *contents;
+	long size;
+} fileio;
+
 #pragma pack(pop)
+
+long fileinsize;
+
 /* read data to array */
 char *readFile(char *fileName) {
 	FILE *file = fopen(fileName, "rb");
 	char *code;
 	size_t n = 0;
 	int c;
+	fileio myfile;
 
 	if (file == NULL)
 		return NULL;
@@ -64,21 +74,33 @@ char *readFile(char *fileName) {
 		c = fgetc(file);
 		code[n] = (char) c;
 	}
-
 	code[n] = '\0';
 	fclose(file);
+	fileinsize = f_size;
 	return code;
 }
 
 
-int main(int argc, char *argv[]) {
-	FILE *fp = fopen("test.bmp", "wb");
-	char fileName[] = "payload.log.100";
+int main(int argc, char **argv) {
+//	char fileName[] = "payload.log.100";
+	char *fileName;
+	char *fileOutput;
+	if (argc > 1) {
+		fileName = argv[1];
+		fileOutput = argv[2];
+	} else if (argc < 1) {
+		fileName = "payload.log.100"; 
+		fileOutput = "test.bmp";
+	}
+	
+//	sprintf(fileOutput, "%s.bmp", fileName); 
+	FILE *fp = fopen(fileOutput, "wb");
 	bitmap *pbitmap = (bitmap*)calloc(1,sizeof(bitmap));
 	uint8_t *pixelbuffer = (uint8_t*)malloc(_pixelbytesize);
 	const char *payload = readFile(fileName);
 	int paylen = _pixelbytesize-sizeof(payload); 
-
+	fileio myfile;
+	long f_size;
 	/* Bikin header nya dikit aja */
 	strcpy(pbitmap->fileheader.signature,"BM");
 	pbitmap->fileheader.filesize = _filesize;
@@ -97,12 +119,16 @@ int main(int argc, char *argv[]) {
 	/* Mulai menggambar */
 	pixelbuffer = readFile(fileName);
 	fwrite(pixelbuffer,1,3000,fp);
+
 //	printf("size %d\n",sizeof(payload));
 	//memset(pixelbuffer,pixel,paylen);
 	//fwrite(pixelbuffer,1,paylen,fp);
 	fclose(fp);
 	free(pbitmap);
+
+	printf("Berhasil dengan input : %s, dan output %s\n",fileName,fileOutput);
 	//free(pixelbuffer);
+	return 0;
 }
 
 /* Raw data to array of bytes 2D */
