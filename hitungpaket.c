@@ -23,9 +23,7 @@ int main(int argc, char **argv)
 	} 
 
 	while (packet = pcap_next(handle,&header)) { 
-
 		packet_counter++;
-
 	} 
 	pcap_close(handle);
 

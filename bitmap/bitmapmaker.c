@@ -145,3 +145,8 @@ size_t fpread(void *buffer, size_t size, size_t mitems, size_t offset, FILE *fp)
 		return 0;
 	return fread(buffer, size, mitems, fp);
 }
+
+/* Buat fungsi untuk membaca pcap file */
+int pcapReader() {
+  
+}
