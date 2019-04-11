@@ -1,0 +1,6 @@
+#+TODO: BELUM | SELESAI
+* Buat packet dissector
+** SELESAI [#A] untuk live traffic
+** BELUM [#A] untuk pcap file (dataset)
+* BELUM Buat classifier
+* BELUM Buat gui tkinter
