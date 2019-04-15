@@ -24,8 +24,6 @@ void usage() {
 }
 
 int main(int argc, char *argv[]) {
-	char *filename;
-	char *ifname;
 	if (argc <= 1) {
 		banner();
 		usage(argc, argv);
@@ -37,12 +35,10 @@ int main(int argc, char *argv[]) {
 	/* Memeriksa opsi yang digunakan */
 	if (strcmp(argv[1], "-r") == 0) {
 		printf("Reading File\n");
-		filename = argv[2];
-		//		readfile(filename);
+		file_read(argc, argv);
 	}
 	else if (strcmp(argv[1], "-i") == 0) {
 		printf("Reading Interface\n");
-		ifname = argv[2];
 		interface_read(argc, argv);
 	} else {
 		usage();

@@ -7,13 +7,15 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netinet/if_ether.h>
+#include <netinet/ip.h>
+#include <netinet/tcp.h>
+#include <net/ethernet.h>
 #include <arpa/inet.h>
 
 #define SNAP_LEN 1518
 
 #define SIZE_ETHERNET 14
-
-#define ETHER_ADDR_LEN 6
 
 struct ethernet_header {
     u_char ether_dhost[ETHER_ADDR_LEN];
@@ -64,6 +66,7 @@ struct tcp_header {
     u_short th_urp;
 };
 
+// BEGIN interface read function
 void
 got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
 
@@ -239,7 +242,13 @@ int interface_read(int argc, char **argv)
     struct bpf_program fp;
     bpf_u_int32 mask;
     bpf_u_int32 net;
-    int num_packets = 999;
+    int num_packets;
+
+    if (strcmp(argv[3], "-n") == 0) {
+   	 num_packets = atoi(argv[4]);
+    } else {
+    	num_packets = 999;
+    }
 
     if (argc >= 2) {
         dev = argv[2];
@@ -291,4 +300,70 @@ int interface_read(int argc, char **argv)
 
     printf("\nCapture complete.\n");
     return 0;
+}
+
+// END interface read function
+// Modified programs of https://www.winpcap.org/docs/docs_41b5/html/group__wpcap__tut7.html 15 April
+// tonylukasavage.com/blog/2010/12/19/offline-packet-capture-analysis0with-c-c 15 April
+
+void packet_handler(u_char *userdata, const struct pcap_pkthdr *, const u_char *packet); 
+
+int file_read(int argc, char *argv[]) {
+	pcap_t *descr;
+	char errbuf[PCAP_ERRBUF_SIZE];
+
+	descr = pcap_open_offline("http.pcap", errbuf);
+	if (descr == NULL) {
+		printf("pcap_open_live() failed : %s\n", errbuf);
+		return 1;
+	}
+
+	if (pcap_loop(descr, 0, packet_handler, NULL) < 0) {
+		printf("pcap_loop() failed : %s\n", errbuf);
+		return 1;
+	}
+
+	printf("Capture Finished\n");
+	return 0;
+}
+
+void packet_handler(u_char *userdata, const struct pcap_pkthdr* pkthdr, const u_char *packet)
+{
+	const struct ethernet_header* ethernet;
+	const struct ip_header* ip;
+	const struct tcp_header* tcp;
+	char src_ip[ETHER_ADDR_LEN];
+	char dst_ip[ETHER_ADDR_LEN];
+	u_int src_port, dst_port;
+	u_char *data;
+	int data_len = 0;
+	char data_str[65536] = "";
+
+	ethernet = (struct ethernet_header*)packet;
+
+	if (ntohs(ethernet->ether_type) == ETHERTYPE_IP) {
+		ip = (struct ip_header*)(packet + sizeof(struct ethernet_header));
+		inet_ntop(AF_INET, &(ip->ip_src), src_ip, ETHER_ADDR_LEN);
+		inet_ntop(AF_INET, &(ip->ip_dst), dst_ip, ETHER_ADDR_LEN);
+
+		if(ip->ip_p == IPPROTO_TCP) {
+			tcp = (struct tcp_header *)(packet + sizeof(struct ethernet_header) + sizeof(struct ip_header));
+			src_port = ntohs(tcp->th_sport);
+			dst_port = ntohs(tcp->th_dport);
+			data = (u_char *)(packet + sizeof(struct ethernet_header) + sizeof(struct ip_header) + sizeof(struct tcp_header));
+			data_len = pkthdr->len - (sizeof(struct ethernet_header) + sizeof(struct ip_header) + sizeof(struct tcp_header));
+
+			for (int i = 0; i < data_len; i++) {
+				if ((data[i] >= 32 && data[i] <= 126) || data[i] == 10 || data[i] == 11 || data[i] == 13) {
+					data_str[i] = (char)data[i];
+				} else {
+					data_str[i] = '.';
+				}
+			}
+			if(data_len > 0) {
+			printf("%s\n", data_str);
+			}
+		}
+	}
+
 }
