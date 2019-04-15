@@ -1,3 +1,8 @@
+#define AUTHOR "Didik Hadumi Setiaji"
+#define APPNAME "pcapread"
+#define APPVER "v1.0 a"
+#define APPDESC "untuk membaca dan mengeksport dalam bentuk bmp"
+
 #include <pcap.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,6 +21,21 @@
 #define SNAP_LEN 1518
 
 #define SIZE_ETHERNET 14
+
+void banner() {
+  printf("=================================\n");
+  printf("Author     : %s\n", AUTHOR);
+  printf("Name       : %s %s\n", APPNAME, APPVER);
+  printf("Deskripsi  : %s\n", APPDESC);
+  printf("=================================\n");
+}
+
+void usage() {
+  printf("Petunjuk : %s -r namafile.pcap prefix\n", APPNAME);
+  printf("           %s -i interface prefix\n", APPNAME);
+  printf("prefix untuk awalan, contoh payload\n");
+  return;
+}
 
 struct ethernet_header {
     u_char ether_dhost[ETHER_ADDR_LEN];
@@ -310,21 +330,27 @@ void packet_handler(u_char *userdata, const struct pcap_pkthdr *, const u_char *
 
 int file_read(int argc, char *argv[]) {
 	pcap_t *descr;
+	struct pcap_pkthdr *header;
+	u_char *packet;
+	int res;
 	char errbuf[PCAP_ERRBUF_SIZE];
+	if (argc >= 3) {
+		descr = pcap_open_offline(argv[2], errbuf);
+		if (descr == NULL) {
+			printf("pcap_open_live() failed : %s\n", errbuf);
+			return 1;
+		}
 
-	descr = pcap_open_offline("http.pcap", errbuf);
-	if (descr == NULL) {
-		printf("pcap_open_live() failed : %s\n", errbuf);
-		return 1;
+		if (pcap_loop(descr, 0, got_packet, NULL) < 0) {
+			printf("pcap_loop() failed : %s\n", errbuf);
+			return 1;
+		}
+		pcap_close(descr);
+		printf("Capture Finished\n");
+		return 0;
+	} else {
+		usage();
 	}
-
-	if (pcap_loop(descr, 0, packet_handler, NULL) < 0) {
-		printf("pcap_loop() failed : %s\n", errbuf);
-		return 1;
-	}
-
-	printf("Capture Finished\n");
-	return 0;
 }
 
 void packet_handler(u_char *userdata, const struct pcap_pkthdr* pkthdr, const u_char *packet)
@@ -361,7 +387,7 @@ void packet_handler(u_char *userdata, const struct pcap_pkthdr* pkthdr, const u_
 				}
 			}
 			if(data_len > 0) {
-			printf("%s\n", data_str);
+				printf("%s\n", data_str);
 			}
 		}
 	}
