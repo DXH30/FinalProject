@@ -1,4 +1,4 @@
-all: pcapread pcaptrain pcaptest complete
+all: tensorflow pcapread pcaptrain pcaptest complete
 
 pcapread: pcapread.c pcapread.h
 	gcc -g -lpcap pcapread.c -o ./bin/pcapread
@@ -11,3 +11,8 @@ pcaptest: pcaptest.c pcaptest.h
 
 complete:
 	echo "Makefile selesai !D"
+
+tensorflow: tf_install 
+
+tf_install:
+	tar -C /usr -zxvf ./lib/libtensorflow*.tar.gz
