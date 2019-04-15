@@ -139,3 +139,7 @@ make:pcapread.c pcaptrain.c pcaptest.c
 	\ gcc -lpcap -g pcaptrain.c -o pcaptrain.c
 	\ gcc -lpcap -g pcaptest.c -o pcaptest.c
 ```
+
+# Sistem Terbagi menjadi dua
+1. PCAPNENE
+2. SnortNENE
