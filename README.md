@@ -143,3 +143,15 @@ make:pcapread.c pcaptrain.c pcaptest.c
 # Sistem Terbagi menjadi dua
 1. PCAPNENE
 2. SnortNENE
+
+# Cara Penggunaan
+1. Pertama-tama compile seluruh program yang ada di src
+2. Compile program yang ada di src/bitmap/raw2bmp.c
+3. Lakukan pcapread -r untuk baca file, atau pcapread -i untuk baca interface
+4. Dari data yang keluar yang banyak itu, raw2bmp input output agar keluar data bitmapnya
+5. Dari data bitmap yang diperoleh baca di Jupyter Notebook
+6. Buat classifier untuk data yang diperoleh dan simpan hasil trainingnya dalam bentuk pickle
+7. Hasil training dalam bentuk pickle buka dengan pcaptest untuk melakukan testing dengan pcaptest -r datatest.pcap -f filepickle
+8. Jika diperoleh nilanya bagus, gunakan data filepickle untuk diolah dalam spp\_example di snort yang memfilter data SnortPacket-\>payload untuk kemudian di tetapkan sebagai rule untuk intrusi yang ada dari file pcap itu
+9. Untuk web interface snort, snort hanya akan menampilkan alert saja.
+10. Sedang untuk interface Malware Classifier, berada di Jupyter Notebook
