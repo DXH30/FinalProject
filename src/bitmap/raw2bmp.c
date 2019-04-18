@@ -1,5 +1,11 @@
+#define APPNAME "raw2bmp"
+#define AUTHOR "Didik Hadumi Setiaji"
+#define YEAR "2019"
+#define APPDESC "Simple bugged raw2bmp"
+
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
 
@@ -80,6 +86,12 @@ char *readFile(char *fileName) {
 	return code;
 }
 
+// Definisikan fungsi penggunaan
+void usage(int argc,char *argv[]) {
+	printf("Usage: %s inputfile.raw outputfile.bmp\n", argv[0]);
+	return;
+}
+
 
 int main(int argc, char **argv) {
 //	char fileName[] = "payload.log.100";
@@ -88,9 +100,9 @@ int main(int argc, char **argv) {
 	if (argc > 1) {
 		fileName = argv[1];
 		fileOutput = argv[2];
-	} else if (argc < 1) {
-		fileName = "payload.log.100"; 
-		fileOutput = "test.bmp";
+	} else if (argc < 3) {
+		usage(argc, argv);
+		exit(1);
 	}
 	
 //	sprintf(fileOutput, "%s.bmp", fileName); 
@@ -131,13 +143,6 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
-/* Raw data to array of bytes 2D */
-int *ratoar(FILE *fp) {
-
-}
-
-
-
 // Pindah pindah byte dengan fseek dan fread
 
 size_t fpread(void *buffer, size_t size, size_t mitems, size_t offset, FILE *fp) {
@@ -146,7 +151,4 @@ size_t fpread(void *buffer, size_t size, size_t mitems, size_t offset, FILE *fp)
 	return fread(buffer, size, mitems, fp);
 }
 
-/* Buat fungsi untuk membaca pcap file */
-int pcapReader() {
-  
-}
+
