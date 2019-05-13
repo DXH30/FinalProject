@@ -34,6 +34,21 @@
  *
  */
 
+/*
+ * spp_nene.c
+ *
+ * Author:
+ *
+ * Didik Hadumi Setiaji <dhs0223@gmail.com>
+ *
+ * Description:
+ *
+ * This file is developed from example snort preprocessor by Steven A. Sturges.
+ *
+ * NOTES:
+ * The Mechanism of this preprocessor is to gain capability of Machine Learning CNN+RNN.
+ *
+ */
 #include <assert.h>
 #include <sys/types.h>
 #include <stdlib.h>

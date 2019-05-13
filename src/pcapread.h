@@ -275,7 +275,7 @@ int interface_read(int argc, char **argv)
         filename = argv[3];
     } else {
         /* default interface eno1 */
-        dev = "eno1";
+        dev = "eth0";
         if (dev == NULL) {
             fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
             exit(EXIT_FAILURE);

@@ -17,5 +17,10 @@ linking:
 	ln -v ./src/bitmap/raw2bmp.py ./bin/raw2bmp; \
 	ln -v ./src/bin/raw2bmp ./bin/raw2bmp.o
 
-clean:
+clean: bersihkan bersih
+
+bersihkan:
 	rm -v ./bin/*
+
+bersih:
+	echo "Sudah dibersihkan.. "
