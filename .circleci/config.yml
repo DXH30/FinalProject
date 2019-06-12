@@ -15,4 +15,4 @@ workflow:
         version: 2
         main:
                 jobs:
-                        - build
+                        - buildtest
