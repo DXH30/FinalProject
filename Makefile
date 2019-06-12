@@ -1,6 +1,6 @@
-all: src bitmap linking
+all: build bitmap linking
 
-src:
+build:
 	cd ./src; \
 	make; \
 	cd ..;
@@ -20,7 +20,8 @@ linking:
 clean: bersihkan bersih
 
 bersihkan:
-	rm -v ./bin/*
+	rm -v ./bin/*; \
+	rm -v ./src/bin/*
 
 bersih:
 	echo "Sudah dibersihkan.. "

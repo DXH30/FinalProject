@@ -1,4 +1,4 @@
-all: tensorflow pcapread pcaptrain pcaptest complete
+all: pcapread pcaptrain pcaptest complete
 
 pcapread: pcapread.c pcapread.h
 	gcc -g -lpcap pcapread.c -o ./bin/pcapread
