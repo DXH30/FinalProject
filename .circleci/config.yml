@@ -9,7 +9,10 @@ jobs:
                 steps:
                         - checkout
                         - run:
-                                name: Running Make
+                                name: Running Make src
+                                command: make src
+                        - run:
+                                name: Running Make All
                                 command: make all
         test:
                 docker:
@@ -20,10 +23,13 @@ jobs:
                 steps:
                         - checkout
                         - run:
-                                name : Running Make
+                                name: Running Make
+                                command: make src
+                        - run:
+                                name: Running Make all
                                 command: make all
                         - run:
-                                name : Running Make Clean
+                                name: Running Make Clean
                                 command: make clean
 workflow:
         version: 2
