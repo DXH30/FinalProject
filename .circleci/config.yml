@@ -1,0 +1,49 @@
+version: 2
+jobs:
+        build:
+                working_directory: ./
+
+                docker: 
+                        - image: circleci/node:4.8.2-jessie
+                        - image: mongo:3.4.4-jessie
+
+                steps:
+                        - checkout
+                        - run:
+                                name: compile src
+                                command: make
+                        - run:
+                                name: Install gcc
+                                command: apt-get install gcc
+
+        test:
+                docker:
+                        - image: circleci/node:4.8.2-jessie
+                        - image: mongo:3.4.4-jessie
+
+                steps:
+                        - checkout
+                        - run:
+                                name: Clean
+                                command: make clean
+
+                        - run:
+                                name: Install
+                                command: make
+
+                        - store_artifacts:
+                                path: test-results.xml
+                                prefix: tests
+
+        workflows:
+                version: 2
+                build_and_test:
+                        jobs:
+                                - build
+                                - test:
+                                        requires:
+                                                - build
+                                        filters:
+                                                branches:
+                                                        only: master
+
