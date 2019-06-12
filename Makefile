@@ -11,6 +11,7 @@ bitmap:
 	cd ../..;
 
 linking:
+	mkdir ./bin; \
 	ln -v ./src/bin/pcapread ./bin/pcapread; \
 	ln -v ./src/bin/pcaptrain ./bin/pcaptrain; \
 	ln -v ./src/bin/pcaptest ./bin/pcaptest; \
@@ -20,8 +21,8 @@ linking:
 clean: bersihkan bersih
 
 bersihkan:
-	rm -v ./bin/*; \
-	rm -v ./src/bin/*
+	rm -rv ./bin; \
+	rm -rv ./src/bin
 
 bersih:
 	echo "Sudah dibersihkan.. "

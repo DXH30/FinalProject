@@ -1,13 +1,16 @@
-all: pcapread pcaptrain pcaptest complete
+all: binc pcapread pcaptrain pcaptest complete
+
+binc:
+	mkdir ./bin
 
 pcapread: pcapread.c pcapread.h
-	gcc -g -lpcap pcapread.c -o ./bin/pcapread
+	gcc -g pcapread.c -o ./bin/pcapread -lpcap
 
 pcaptrain: pcaptrain.c pcaptrain.h
-	gcc -g -lpcap pcaptrain.c -o ./bin/pcaptrain
+	gcc -g pcaptrain.c -o ./bin/pcaptrain -lpcap
 
 pcaptest: pcaptest.c pcaptest.h
-	gcc -g -lpcap pcaptest.c -o ./bin/pcaptest
+	gcc -g pcaptest.c -o ./bin/pcaptest -lpcap
 
 complete:
 	echo "Makefile selesai !D"
