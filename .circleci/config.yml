@@ -1,49 +1,36 @@
 version: 2
 jobs:
         build:
-                working_directory: ./
-
                 docker: 
-                        - image: circleci/node:4.8.2-jessie
-                        - image: mongo:3.4.4-jessie
-
+                        - image: dxh30/secret:latest
+                          auth:
+                                  username: dxh30
+                                  password: $DOCKERHUB_PASSWORD
                 steps:
                         - checkout
                         - run:
-                                name: compile src
-                                command: make
+                                name: cd to FinalProject
+                                command: cd ~/FinalProject
                         - run:
-                                name: Install gcc
-                                command: apt-get install gcc
-
+                                name: Clone FinalProject
+                                command: git pull
+                        - run:
+                                name: Running Make
+                                command: make
         test:
                 docker:
-                        - image: circleci/node:4.8.2-jessie
-                        - image: mongo:3.4.4-jessie
-
+                        - image: dxh30/secret:latest
+                          auth:
+                                  username: dxh30
+                                  password: $DOCKERHUB_PASSWORD
                 steps:
                         - checkout
                         - run:
-                                name: Clean
+                                name: Clean Repo
                                 command: make clean
-
-                        - run:
-                                name: Install
-                                command: make
-
-                        - store_artifacts:
-                                path: test-results.xml
-                                prefix: tests
-
-workflows:
+workflow:
         version: 2
-        build_and_test:
+        main:
                 jobs:
                         - build
-                        - test:
-                                requires:
-                                        - build
-                                filters:
-                                        branches:
-                                                only: master
-
+                        - test
