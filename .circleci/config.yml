@@ -9,12 +9,6 @@ jobs:
                 steps:
                         - checkout
                         - run:
-                                name: cd to FinalProject
-                                command: cd /root/FinalProject
-                        - run:
-                                name: Clone FinalProject
-                                command: git pull
-                        - run:
                                 name: Running Make
                                 command: make
         test:
@@ -25,9 +19,6 @@ jobs:
                                   password: $DOCKERHUB_PASSWORD
                 steps:
                         - checkout
-                        - run:
-                                name: cd to FinalProject
-                                command: cd /root/FinalProject
                         - run:
                                 name: Clean Repo
                                 command: make clean
