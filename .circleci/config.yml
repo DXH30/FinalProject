@@ -1,6 +1,6 @@
 version: 2
 jobs:
-        build:
+        buildtest:
                 docker: 
                         - image: dxh30/secret:latest
                           auth:
@@ -11,20 +11,8 @@ jobs:
                         - run:
                                 name: Running Make
                                 command: make
-        test:
-                docker:
-                        - image: dxh30/secret:latest
-                          auth:
-                                  username: dxh30
-                                  password: $DOCKERHUB_PASSWORD
-                steps:
-                        - checkout
-                        - run:
-                                name: Clean Repo
-                                command: make clean
 workflow:
         version: 2
         main:
                 jobs:
                         - build
-                        - test
