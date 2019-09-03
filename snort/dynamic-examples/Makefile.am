@@ -12,6 +12,7 @@ BUILT_SOURCES = \
 	include/sf_dynamic_define.h \
 	include/sf_dynamic_meta.h \
 	include/sf_dynamic_preprocessor.h \
+	include/sf_decompression_define.h \
 	include/sf_dynamic_preproc_lib.c \
 	include/sf_dynamic_preproc_lib.h \
 	include/sfghash.h \
@@ -239,6 +240,9 @@ include/sf_dynamic_meta.h: $(srcdir)/../dynamic-plugins/sf_dynamic_meta.h
 
 include/sf_dynamic_preprocessor.h: $(srcdir)/../dynamic-plugins/sf_dynamic_preprocessor.h
 	@src_header=$?; dst_header=$@; $(massage_headers)
+
+include/sf_decompression_define.h: $(srcdir)/../dynamic-plugins/sf_decompression_define.h
+	@src_header=$?; dst_header=$@; $(copy_headers)
 
 # From dynamic-plugins/sf_preproc_example
 include/sf_dynamic_preproc_lib.c: $(srcdir)/../dynamic-plugins/sf_preproc_example/sf_dynamic_preproc_lib.c

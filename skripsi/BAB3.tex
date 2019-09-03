@@ -1,0 +1,60 @@
+\documentclass{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel}
+\usepackage{fullpage}
+
+\usepackage{tikz-uml}
+\begin{document}
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+\tikzstyle{term} = [draw, ellipse, fill=white!20, node distance=3cm, minimum height=2em]
+
+\chapter{Metode Penelitian}
+\section{Metode Penelitian}
+\begin{center}
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node [term, node distance=3cm] (init) {mulai};
+    \node [block, below of=init] (identify) {Identifikasi Kandidat Model};
+    \node [block, below of=identify] (evaluate) {Evaluasi Kandidat Model};
+    \node [block, left of=evaluate, node distance=3cm] (update) {update model};
+    \node [decision, below of=evaluate] (decide) {Kandidat Model terbaik?};
+    \node [term, below of=decide, node distance=3cm] (stop) {stop};
+    % Draw edges
+    \path [line] (init) -- (identify);
+    \path [line] (identify) -- (evaluate);
+    \path [line] (evaluate) -- (decide);
+    \path [line] (decide) -| node [near start] {ya} (update);
+    \path [line] (update) |- (identify);
+    \path [line] (decide) -- node {tidak}(stop);
+
+\end{tikzpicture}
+\end{center}
+\section{Desain Penelitian}
+
+\section{Populasi dan Sampel}
+\subsection{Populasi Penelitian}
+\subsection{Sampel Penelitian}
+
+\section{Instrumen Penelitian}
+\subsection{Proses Pengembangan Instrumen}
+\subsection{Uji Validitas Instrumen}
+\subsubsection{Hasil Uji Validitas Instrumen}
+
+\subsection{Uji Reliabilitas Instrumen}
+\subsubsectino{Hasil Uji Reliabilitas Instrumen}
+
+\section{Prosedur Penelitian}
+
+\section{Analisis Data}
+\subsection{Prosedur Pengolahan Data}
+\subsection{Teknik Analisis Data}
+
+\end{document}

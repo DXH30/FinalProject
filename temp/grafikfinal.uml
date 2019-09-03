@@ -1,0 +1,87 @@
+@startuml
+skinparam linetype ortho
+class SnortIDS {
+    config default
+    ---
+    spp_example: port 45
+}
+
+class spp_example {
+    sockfd write;
+    sockfd read;
+}
+
+class flask_microservice {
+    Filter CNN (input)
+    ---
+    return prediction, payload, header
+}
+
+enum statistik {
+    num , ip_src
+    1, 103.1.102.1
+    0, 100.10.100.1
+    1, 103.1.102.1
+    ...
+}
+
+class perl_process {
+    int num
+    int ip_src
+    int ip_dst
+    int src_port
+    int dst_port
+    ---
+    hitung_statistik()
+    hitung_stokastik()
+    hitung_prediksi()
+    hitung_blacklist()
+    hitung_whitelist()
+}
+
+enum filepredict {
+    int ip_src
+    int ip_dst
+    int num_1
+    int num_0
+    int dst_port
+    int num_packet
+}
+
+interface barnyard {
+    table data
+    table detail
+    table encoding
+    table event
+    table icmphdr
+    table iphdr
+    table opt
+    table reference
+    table reference_system
+    table schema
+    table sensor
+    table sig_class
+    table sig_reference
+    table signature
+    table tcphdr
+    table udphdr
+}
+
+interface web_plot {
+    int barnyard
+    int AI_snort stats
+}
+
+SnortIDS -> spp_example
+spp_example -> flask_microservice
+spp_example -> barnyard
+flask_microservice -> statistik
+statistik -> perl_process
+perl_process -> filepredict
+flask_microservice --> filepredict
+barnyard --> web_plot
+filepredict --> web_plot
+statistik --> web_plot
+perl_process --> web_plot
+
+@enduml

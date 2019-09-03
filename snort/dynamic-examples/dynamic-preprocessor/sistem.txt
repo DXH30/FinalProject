@@ -1,0 +1,15 @@
+Theano/Tensorflow Keras (Deep Learning)
+ (CNN Multiple Filter Signature/Pattern Detection Blacklist)
+ (LSTM Profiler Anomaly Detector Whitelist)
+SnortIDS (Keamanan Jaringan)
+ (Preprocessor tanpa alert luar/rule)
+Flask (Microservice (Web))
+ (sebagai API yang menjembatani data payload keluaran IDS ke tensor
+DeepLearning)
+DAQ (Dynamic Ackquisition Library) (Data Mining)
+ (Konversi struktur dari snortIDS ke pcap)
+PCAP (Data Mining)
+ (Pembaca packet capture keluaran tcpdump)
+Scapy (Data Mining)
+ (Pembaca packet capture python)
+

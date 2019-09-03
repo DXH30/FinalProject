@@ -1,0 +1,4 @@
+https://machinelearningmastery.com/dropout-regularization-deep-learning-models-keras/
+https://stackoverflow.com/questions/46308374/what-is-validation-data-used-for-in-a-keras-sequential-model
+https://snort-org-site.s3.amazonaws.com/production/release_files/files/000/008/469/original/snort_manual.text?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIXACIED2SPMSC7GA%2F20190824%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190824T152051Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=dced3ae162ba90a1f45d139a25d664a3957ee4aa5e7c4af23d3dee8103f08278
+https://www.networkworld.com/article/3190407/nine-ways-to-compare-files-on-unix.html

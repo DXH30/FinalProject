@@ -1,0 +1,3 @@
+netsh show interface subinterface
+untuk melihat konfigurasi mtu dari setiap adapter di windows
+ip link dev wlan0

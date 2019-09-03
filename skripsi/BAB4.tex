@@ -1,0 +1,49 @@
+\documentclass{article}
+\begin{document}
+\chapter{Hasil Penelitian}
+\section{Deskripsi Hasil Penelitian}
+\section{Hasil Ekstraksi Fitur Data}
+Untuk tiap byte stream di terjemahkan ke dalam kode assembly menggunakan \textit{objdump -d \$namefile} untuk kemudian dipisahkan tiap segmen dan data yang ada di dalamnya
+\subsection{Ekstraksi Fitur pada Segmen .text}
+\subsubsection{Fitur Normal}
+Fitur Normal pada segmen text akan di cadangkan untuk stack pertama untuk keperluan generate signature dengan RNN
+\subsubsection{Fitur Anomali}
+Fitur Anomali pada segmen text diperoleh dari deviasi kecenderungan data disebut normal pada segmen .text
+\subsection{Ekstraksi Fitur pada Segmen .rodata}
+\subsubsection{Fitur Normal}
+Fitur Normal pada segmen .rodata akan di cadangkan untuk stack kedua untuk keperluan generate signature dengan RNN
+\subsubsection{Fitur Anomali}
+Fitur Anomali pada segmen .rodata diperoleh dari deviasi data yang disebut normal pada sesi Fitur Normal
+\subsection{Ekstraksi Fitur pada Segmen .data}
+\subsubsection{Fitur Normal}
+Fitur Normal pada segmen .data akan di cadangkan untuk stack kedua untuk keperluan generate signature dengan RNN
+\subsubsection{Fitur Anomali}
+Fitur Anomali pada segmen .data diperoleh dari deviasi data yang disebut normal pada sesi Fitur Normal
+\subsection{Ekstraksi Fitur pada Segmen .bss}
+\subsubsection{Fitur Normal}
+Fitur Normal pada segmen .bss akan di cadangkan untuk stack kedua untuk keperluan generate signature dengan RNN
+\subsubsection{Fitur Anomali}
+Fitur Anomali pada segmen .bss diperoleh dari deviasi data yang disebut normal pada sesi Fitur Normal
+\section{Hasil Terjemahan Fitur}
+\subsection{Terjemahan Fitur pada segmen .text}
+
+\subsection{Terjemahan Fitur pada segmen .rodata}
+
+\subsection{Terjemahan Fitur pada segmen .data}
+
+\subsection{Terjemahan Fitur pada segmen .bss}
+
+\section{Hasil PCRE Berdasarkan Fitur}
+\subsection{Rule PCRE pada segmen .text}
+\subsection{Rule PCRE pada segmen .rodata}
+\subsection{Rule PCRE pada segmen .data}
+\subsection{Rule PCRE pada segmen .bss}
+\section{Hasil Pengujian rule IDS}
+Proses pengujian rule IDS dilakukan dengan memanfaatkan awalan padding dari tiap segmen dengan menggunakan rule content. Lalu kemudian menerapkan rule PCRE pada tiap segmen data untuk mencari data matching dari setiap bytecode yang ada, dengan pengukuran akurasi dari tiap PCRE bernilai 1 tiap byte jika terdapat bytecode anomali, dan 0 jika terdapat bytecode normal.
+\par
+Dari kecenderungan ini akan dipetakan dalam bentuk gambar hitam putih untuk dilakukan filtrasi dengan menggunakan CNN untuk menentukan kecenderungan paket memiliki sifat bytecode anomali atau tidak.
+\par
+Pada keseluruhan proses ini tidak terdapat langkah training sehingga, dapat dipastikan kecepatan dari pendeteksian akan berlangsung cepat
+\subsection{Akurasi Pengujian rule IDS}
+Akurasi Pengujian rule IDS dilakukan pada setiap Malware yang diumpankan, dalam bentuk apapun, yang telah di training terlebih dahulu.
+\end{document}

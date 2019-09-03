@@ -1,0 +1,12 @@
+paths:
+  /:
+    get:
+  
+  /foo:
+    get:
+    post:
+  '/foo/{id}':
+    get:
+    put:
+    copy:
+    delete:
