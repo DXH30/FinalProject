@@ -1,0 +1,61 @@
+\documentclass[12pt,indonesia]{book}
+\usepackage{titlesec}
+\usepackage{subfiles}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{tikz-uml}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,left=4cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{natbib}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{blindtext}
+\usepackage{chngcntr}
+\usepackage{public/packages/tocloft} % buat ngedit daftar gambar dan tabel
+
+\renewcommand\cftfigpresnum{Gambar\ }
+\renewcommand\cfttabpresnum{Tabel\ }
+\newlength{\mylenf}
+\settowidth{\mylenf}{\cftfigpresnum}
+\setlength{\cftfignumwidth}{\dimexpr\mylenf+2.5em}
+\setlength{\cfttabnumwidth}{\dimexpr\mylenf+2.5em}
+\addto\captionsenglish{\renewcommand\listfigurename{Daftar Gambar}}
+\addto\captionsenglish{\renewcommand\listtablename{Daftar Tabel}}
+% Menyesuaikan format Fakultas
+\addto\captionsenglish{\def\contentsname{DAFTAR ISI}}
+\addto\captionsenglish{\def\bibname{DAFTAR PUSTAKA}}
+\author{
+Didik Hadumi Setiaji
+\texttt{F1B014020}
+}
+\title{
+Design of Intelligent Intrusion Detection System for Virus Pattern Recognition with Recurrent Neural Network in Snort
+}
+\date{February 2019}
+\renewcommand{\chaptertitlename}{BAB}
+\addto\captionsenglish{\renewcommand{\figurename}{Gambar}}
+\titleformat{\chapter}[display]
+   {\normalfont\large\bfseries\centering}{\centering\chaptertitlename\ \thechapter}{12pt}{\Large}
+\titlespacing*{\chapter}
+   {0pt}{50pt}{40pt}
+\bibliographystyle{plain}
+\begin{document}
+\subfile{skripsi/cover.tex}
+\frontmatter
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\subfile{skripsi/PENGESAHAN.tex}
+\singlespacing
+\mainmatter
+\subfile{skripsi/BAB1.tex}
+\subfile{skripsi/BAB2.tex}
+\subfile{skripsi/BAB3.tex}
+\subfile{skripsi/BAB4.tex}
+\subfile{skripsi/BAB5.tex}
+\newpage
+\bibliography{skripsi}
+\end{document}
