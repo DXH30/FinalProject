@@ -28,10 +28,7 @@ yang hanya menampilkan Alert dan Lain-lain secara umum
 
 2. Webgui hanya untuk nenepreprocessor (buat sendiri)
 
-3. Masuk ke Classifier sebelum ke Filter
- - CNN
- - kNN
- - SVM
+3. Masuk ke Classifier sebelum ke Filter dengan Convolutional Neural Network
 
 4. Filter menggunakan Predictor dengan Elman atau LSTM RNN
  - Berdasarkan dari persentase Benign atau Malicious dari paket, jika kecenderungan mencapai diatas 80% Benign, maka paket akan di loloskan, dengan Range Prediksi sebanyak 50 step, jika kecenderungan mencapai diatas 80% Malicious, maka paket akan dihentikan, dengan Range Prediksi sebanyak 50 step
@@ -39,12 +36,11 @@ yang hanya menampilkan Alert dan Lain-lain secara umum
 5. Dari data kecenderungan Benign akan di ekstraksi fitur PCRE dengan rule : 
  - PCRE hanya mendeteksi non ASCII char, PCRE yang di ekstraksi merupakan salah satu dari jenis paket yang paling sering menghasilkan Prediksi Negative
 
-6. PCRE digunakan sebagai rule yang dihasilkan oleh NN, dimana dari NN diperoleh database yang berisi list packet yang terdapat benign, dan list packet yang normal
-Kemudian dilihat diff nya satu persatu, jika terdapat kesamaan, maka itu dianggap packet Background, tetapi jika terdapat pada Packet Malicious namun tidak pada Packet Benign, maka snip itu dianggap code Malicious. Begitupula sebaliknya, jika terdapat pada Packet Benign namun tidak pada Packet Malicious, maka snip itu dikategorikan kode Benign
+6. PCRE digunakan sebagai pattern matching untuk header tertentu sebelum di defrag dan akan dimasukkan dalam CNN sebagai bentuk aslinya (seperti saat belum di enkapsulasi)
 
-7. Dari ketiga perbedaan itu, di kumpulkan dan dipisahkan ke tabel masing-masing, kemudian dari tabel masing-masing akan di cari kesamaan dengan snip yang sudah ada, dengan memanfaatkan Regex dengan Word Boundary dengan Boundary Limiter 0x00, 0x0a, 0x0d, 0x90, 0x20, atau 0x00 NULL, 0x0a (LF), 0x0d (CR), 0x90 (NOP), 0x20 (SPC) 
+7. Dari ketiga perbedaan itu, di kumpulkan dan dipisahkan ke tabel masing-masing, kemudian dari tabel masing-masing akan di cari kesamaan dengan snip yang sudah ada, dengan memanfaatkan Regex dengan Word Boundary dengan Boundary Limiter 0x00, 0x0a, 0x0d, 0x90, 0x20, atau 0x00 NULL, 0x0a (LF), 0x0d (CR), 0x90 (NOP), 0x20 (SPC). Beberapa ketentuan ini masih opsional. Dan untuk kepastian data PCRE yang diperoleh adalah memaksimalkan penggunaan PCRE hanya untuk pemisahan dan pengkategorian paket berdasarkan header saja. (Bisa dikembangkan ke packet konten untuk penelitian selanjutnya yang berkelanjutan) 
 
-8. Dari perbedaan yang dicari perbyte kemudian akan dihasilkan jika pada delimiter tersebut terdapat 1 atau lebih kesamaan yang sering terjadi (lebih dari 3 kali) maka akan di buat regex nya, dan akan masuk ke dalam tabel regex Malicious
+8. Dari perbedaan yang dicari perbyte kemudian akan dihasilkan jika pada delimiter tersebut terdapat 1 atau lebih kesamaan yang sering terjadi (lebih dari 3 kali) maka akan di buat regex nya, dan akan masuk ke dalam tabel regex Malicious. (Ini skenario sederhana bagaiman PCRE yang terdeteksi dalam suatu file dapat memisahkan Pola Malicious dan pola Benign)
 
 ## Intro Command
 
@@ -70,6 +66,7 @@ options:
  -v verbose
  -t target (Normal (1), Background(0), Malicious(-1))
 ```
+Opsi ini untuk sementara tidak dipakai karena memaksimalkan penggunaan keras sebagai metode training model
 
 3. Untuk pcaptrain.conf
 
@@ -103,6 +100,9 @@ default
 pakai CNN # perintah pakai untuk menseleksi selector
 
 ```
+Untuk opsi ini tidak dibuat karena memaksimalkan penggunaan keras sebagai model trainer dan tester. Sehingga konfigurasinya menggunakan flask dalam bentuk web.
+Hal-hal yang di parameterkan adalah MTU
+dan yang ditampilkan ketika model di load adalah ukuran MTU itu sendiri.
 
 4. Testing sebelum dipakai di snort, pcaptest.c
 
@@ -111,8 +111,9 @@ pcaptest [options] file.pcap
 options:
  - s (1 untuk negative, 2 untuk positif) 
 ```
+Untuk testing ini menggunakan flask juga karena yang digunakan adalah prediktornya
 
-5. Untuk di Snort spp_nnota.c
+5. Untuk di Snort spp\_nnota.c
 
 ```c
 # Memanfaatkan database yang telah diolah untuk diperoleh hasilnya live
@@ -120,7 +121,8 @@ gunanya adalah untuk memfilter data jaringan, dengan data neural
 # Skenario 1 : Data masuk di sampling jarang-jarang dan di prediksi berdasarkan hasil dari LSTM, atau Elman RNN
 ```
 
-6. Untuk di Snort Web Interface | Nanti setelah ujian
+Beberapa konten dari file ini belum di ubah
+6. Untuk di Snort Web Interface
 
 ```console
 Grafik persentase Normal / Malicious
@@ -141,8 +143,8 @@ make:pcapread.c pcaptrain.c pcaptest.c
 ```
 
 # Sistem Terbagi menjadi dua
-1. PCAPNENE
-2. SnortNENE
+1. LSTM Profiler
+2. CNN Predictor
 
 # Cara Penggunaan
 1. Pertama-tama compile seluruh program yang ada di src
