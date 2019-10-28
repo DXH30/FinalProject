@@ -1,0 +1,78 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block navbar %}
+    {{nav.mynavbar.render()}}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Konfigurasi model</h1>
+        <form method="POST" action="#" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="mtusize">Ukuran MTU</label>
+                <input class="form-control" type="text" id="mtusize">
+            </div>
+            <div class="form-group">
+                <div class="input-group input-file" name="modelFile">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-choose" type="button">Upload Model JSON</button>
+                    </span>
+                    <input type="text" class="form-control" name="modelFile" placeholder='Pilih file...' />
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning btn-reset" type="button">Reset</button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-file" name="bobotFile">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-choose" type="button">Upload Bobot JSON</button>
+                    </span>
+                    <input type="text" class="form-control" name="bobotFile" placeholder='Pilih file...' />
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning btn-reset" type="button">Reset</button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        function bs_input_file() {
+            $(".input-file").before(
+                function() {
+                    if ( ! $(this).prev().hasClass('input-ghost') ) {
+                        var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+                        element.attr("name",$(this).attr("name"));
+                        element.change(function(){
+                            element.next(element).find('input').val((element.val()).split('\\').pop());
+                        });
+                        $(this).find("button.btn-choose").click(function(){
+                            element.click();
+                        });
+                        $(this).find("button.btn-reset").click(function(){
+                            element.val(null);
+                            $(this).parents(".input-file").find('input').val('');
+                        });
+                        $(this).find('input').css("cursor","pointer");
+                        $(this).find('input').mousedown(function() {
+                            $(this).parents('.input-file').prev().click();
+                            return false;
+                        });
+                        return element;
+                    }
+                }
+            );
+        }
+        $(function() {
+            bs_input_file();
+        });
+    </script>
+{% endblock %}
