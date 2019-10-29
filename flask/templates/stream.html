@@ -1,0 +1,17 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block navbar %}
+  {{ nav.mynavbar.render() }}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div id="output" class="pre-scrollable">
+      {{ data }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  {{super()}}
+{% endblock %}
