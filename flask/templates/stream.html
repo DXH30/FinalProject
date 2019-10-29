@@ -6,12 +6,17 @@
 
 {% block content %}
   <div class="container">
-    <div id="output" class="pre-scrollable">
-      {{ data }}
-    </div>
+    <pre id="output" class="pre-scrollable">
+      <code>
+	{{ data }}
+      </code>
+    </pre>
   </div>
 {% endblock %}
 
 {% block script %}
   {{super()}}
+  <script>
+$("#output").scrollTop($("#output")[0].scrollHeight);
+  </script>
 {% endblock %}

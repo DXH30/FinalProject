@@ -7,17 +7,17 @@
 {% block content %}
     <div class="container">
         <h1>Konfigurasi model</h1>
-        <form method="POST" action="#" enctype="multipart/form-data">
+        <form method="POST" action="/setting" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="mtusize">Ukuran MTU</label>
-                <input class="form-control" type="text" id="mtusize">
+		<input class="form-control" type="text" id="mtusize" name="mtuSize" value="{{data.mtuSize}}">
             </div>
             <div class="form-group">
                 <div class="input-group input-file" name="modelFile">
                     <span class="input-group-btn">
                         <button class="btn btn-default btn-choose" type="button">Upload Model JSON</button>
                     </span>
-                    <input type="text" class="form-control" name="modelFile" placeholder='Pilih file...' />
+		    <input type="text" class="form-control" name="modelFile" placeholder='masukkan model file disini...' />
                     <span class="input-group-btn">
                         <button class="btn btn-warning btn-reset" type="button">Reset</button>
                     </span>
@@ -26,9 +26,9 @@
             <div class="form-group">
                 <div class="input-group input-file" name="bobotFile">
                     <span class="input-group-btn">
-                        <button class="btn btn-default btn-choose" type="button">Upload Bobot JSON</button>
+                        <button class="btn btn-default btn-choose" type="button">Upload Bobot H5</button>
                     </span>
-                    <input type="text" class="form-control" name="bobotFile" placeholder='Pilih file...' />
+		    <input type="text" class="form-control" name="bobotFile" placeholder='masukkan bobot file disini..' />
                     <span class="input-group-btn">
                         <button class="btn btn-warning btn-reset" type="button">Reset</button>
                     </span>
