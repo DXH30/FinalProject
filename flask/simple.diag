@@ -1,0 +1,5 @@
+diagram {
+ browser -> webserver [label = "sPort=80 dPort=443"]
+ webserver -> browser [label = "sPort=443 dport=80"]
+ abc -> def [label = "GET POST"]
+}

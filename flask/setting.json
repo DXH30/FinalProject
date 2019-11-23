@@ -1,1 +1,1 @@
-{"mtuSize": "1500", "modelFile": "PelatihanRaspberryPi1.tex", "bobotFile": "PelatihanRaspberryPi1.tex"}
+{"fileModelLSTM": "LSTM4Param.json", "fileBobotLSTM": "svchostalstm4.hs5", "fileModelCNN": "CNNModel.json", "fileBobotCNN": "svchosta001.hs5"}
