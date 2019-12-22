@@ -1,0 +1,78 @@
+{% extends "bootstrap/base.html" %}
+
+{% block navbar %}
+    {{nav.mynavbar.render()}}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Hasil Analisis</h1>
+	<h2>CNN Filter</h2>
+	<img src="{{cnn_path}}">
+	<h2>IP Src</h2>
+	<img src="{{ip_src}}">
+	<h2>IP Dst</h2>
+	<img src="{{ip_dst}}">
+	<h2>Port Src</h2>
+	<img src="{{port_src}}">
+	<h2>Port Dst</h2>
+	<img src="{{port_dst}}">
+    </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    function bs_input_file() {
+      $(".input-file").before(
+	function() {
+	  if ( ! $(this).prev().hasClass('input-ghost') ) {
+	    var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+	    element.attr("name",$(this).attr("name"));
+	    element.change(function(){
+	      element.next(element).find('input').val((element.val()).split('\\').pop());
+	    });
+	    $(this).find("button.btn-choose").click(function(){
+	      element.click();
+	    });
+	    $(this).find("button.btn-reset").click(function(){
+	      element.val(null);
+	      $(this).parents(".input-file").find('input').val('');
+	    });
+	    $(this).find('input').css("cursor","pointer");
+	    $(this).find('input').mousedown(function() {
+	      $(this).parents('.input-file').prev().click();
+	      return false;
+	    });
+	    return element;
+	  }
+	}
+      );
+    }
+$(function() {
+  bs_input_file();
+});
+  </script>
+  <script>
+    $(document).on('click', '.panel div.clickable', function(e) {
+      var $this = $(this);
+      var $panel = $this.parent('.panel');
+      var $panel_body = $panel.children('.panel-body');
+      var $display = $panel_body.css('display');
+
+      if ($display == 'block') {
+	$panel_body.slideUp();
+      } else if ($display == 'none') {
+	$panel_body.slideDown();
+      }
+    });
+$(document).ready(function(e){
+  var $classy = '.panel.autocollapse';
+
+  var $found = $($classy);
+  var $found = $($classy);
+  $found.find('.panel-body').hide();
+  $found.removeClass($classy);
+});
+  </script>
+{% endblock %}

@@ -1,0 +1,11 @@
+1 Proto
+2 SrcAddr
+3 DstAddr
+4 Sport
+5 Dport
+6 Dir
+7 TotPkts
+8 TotBytes
+9 SrcBytes
+10 Label
+11 Label_dual

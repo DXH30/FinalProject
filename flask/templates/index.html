@@ -5,11 +5,120 @@
 {% endblock %}
 
 {% block content %}
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css') }}"/>
     <div class="container">
         <h1>Selamat Datang</h1>
         <p>Author : Didik Hadumi Setiaji</p>
         <p>Sistem ini dibuat untuk melakukan filtrasi packet dengan menggunakan CNN dan LSTM. Untuk melanjutkan menggunakan sistem ini klik menu <b>upload</b></p>
     </div>
-{% endblock %}
+    <button id='reset' onclick="resettesting()" class="btn btn-default" type="button">
+      <img src="{{url_for('static', filename="365.gif") }}" height='20px'/>
+      Reset...
+    </button>
+    <div id="datas">
+    </div>
+  {% endblock %}
+
+  {% block scripts %}
+    {{ super() }}
+    <script>
+      $(document).ready(function() {
+	realtime();
+      });
+//$('#reset').on('click', resettesting());
+
+function realtime() {
+  setTimeout(function() {
+    getdata();
+    realtime();
+  }, 2000);
+}
 
 
+var resetstatus = 0;
+function resettesting() {
+  $.ajax({
+    url: "http://127.0.0.1:5000/resettesting",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(data),
+    success: function(result) {
+      resetstatus = result;
+    },
+    error: function(error) {
+      console.log(`Error ${error}`);
+    }
+  });
+}
+
+var data = [];
+function getdata() {
+  try {
+    document.getElementById("dataset").remove();
+  } catch (err) {
+    console.log(err);
+  }
+  $.ajax({
+    url: "http://127.0.0.1:5000/getstatus",
+    method: "GET",
+    success: function(result) {
+      data = result;
+    },
+    error: function(error) {
+      console.log(`Error ${error}`);
+    }
+  });
+  // Buat tag list dengan list semua dataset
+  // Buat tombolnya juga yang mana tombolnya akan menyala apabila
+  // statusnya 2, dan akan mati jika statusnya 1 atau 0
+  datasetContainer = document.createElement('div');
+  datasetContainer.setAttribute('class', 'container-fluid');
+  datasetContainer.setAttribute('id', "dataset");
+  datasetRow = document.createElement('div');
+  datasetContainer.setAttribute('class', 'row centered');
+  datasetCol = document.createElement('div');
+  datasetCol.setAttribute('class', 'col-md-2');
+  datasetTable = document.createElement('table');
+  datasetTable.setAttribute('class', "table table-sm");
+  numDataset = data.length;
+  listItem = 0;
+  i = 0;
+  // Tambah di tag body
+  $("#datas").append(datasetContainer);
+  datasetContainer.appendChild(datasetRow);
+  datasetRow.appendChild(datasetCol);
+  datasetCol.appendChild(datasetTable);
+  headerItem = document.createElement('thead');
+  headerData = document.createElement('tr');
+  headerData.innerHTML = "<th>Data</th><th>Status</th>";
+  headerItem.appendChild(headerData);
+  datasetTable.appendChild(headerItem);
+
+  bodyItem = document.createElement('tbody');
+  datasetTable.appendChild(bodyItem);
+  for (i = 0; i < numDataset; i++) {
+    listItem = document.createElement('tr');
+    switch(data[i][1]) {
+      case "2":
+	listItem.innerHTML = "<td>"+data[i][0]+"</td><td><button width='100%' class='btn btn-success'>Selesai</button></td>";
+	resetstatus = 0;
+	break;
+      case "1":
+	//spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
+	//	spinner = '<div class="loader"></div>';
+	spinner = '<img src="static/365.gif" height="20px"/>';
+	listItem.innerHTML = "<td>"+data[i][0]+"</td><td><button width='100%' class='btn btn-default' type='button' disabled>"+spinner+"Proses</button></td>";
+	break;
+      case "0":
+	listItem.innerHTML = "<td>"+data[i][0]+"</td><td><button width='100%' class='btn btn-default' type='button' disabled>Belum</button></td>";
+	break;
+      default:
+	listItem.innerHTML = "<td>"+data[i][0]+"</td><td></td>";
+	break;
+    }
+    bodyItem.appendChild(listItem);
+  }
+}
+    </script>
+  {% endblock %}
