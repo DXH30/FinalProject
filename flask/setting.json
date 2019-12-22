@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"fileModelLSTM": "", "fileBobotLSTM": "svchostalstm4.hs5", "fileModelCNN": "", "fileBobotCNN": ""}
+=======
+{"fileModelLSTM": "LSTM4Param.json", "fileBobotLSTM": "svchostalstm4.hs5", "fileModelCNN": "CNNModel.json", "fileBobotCNN": "svchosta001.hs5"}
+>>>>>>> c4d203c82959da3bb4cbc895f0289dc21e7e130c
